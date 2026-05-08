@@ -34,8 +34,8 @@ spec:
             - name: BOT__TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "telegram-repeater-bot.fullname" . }}
-                  key: BOT__TOKEN
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.key }}
             # Non-sensitive: injected from the ConfigMap
             - name: BOT__INPUTCHATID
               valueFrom:
@@ -47,6 +47,11 @@ spec:
                 configMapKeyRef:
                   name: {{ include "telegram-repeater-bot.fullname" . }}
                   key: BOT__OUTPUTCHATID
+            - name: BOT__OUTPUTTOPICID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "telegram-repeater-bot.fullname" . }}
+                  key: BOT__OUTPUTTOPICID
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           # The bot has no HTTP listener, so no liveness/readiness probes needed.

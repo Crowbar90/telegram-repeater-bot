@@ -86,9 +86,11 @@ public sealed class RepeaterService : BackgroundService
         {
             await bot.SendMessage(
                 chatId: _settings.OutputChatId,
+                messageThreadId: _settings.OutputTopicId,
                 text: text,
                 parseMode: ParseMode.None,          // treat as plain text — don't interpret markdown
                 cancellationToken: ct);
+
         }
         catch (ApiRequestException ex)
         {

@@ -15,4 +15,7 @@ public sealed class BotSettings
 
     /// <summary>Chat ID where the bot forwards messages.</summary>
     public long OutputChatId { get; init; }
+
+    /// <summary>Optional Topic ID (message thread) in the output chat.</summary>
+    public int? OutputTopicId { get; init; }
 }

@@ -7,3 +7,4 @@ metadata:
 data:
   BOT__INPUTCHATID: {{ .Values.bot.inputChatId | quote }}
   BOT__OUTPUTCHATID: {{ .Values.bot.outputChatId | quote }}
+  BOT__OUTPUTTOPICID: {{ .Values.bot.outputTopicId | quote }}

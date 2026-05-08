@@ -17,13 +17,7 @@ fullnameOverride: ""
 bot:
   inputChatId: "0"   # set to the real chat ID
   outputChatId: "0"  # set to the real chat ID
-
-# Secret value (set via --set or an external secrets manager)
-# DO NOT commit real tokens here
-secret:
-  # base64-encoded Telegram bot token
-  # generate with: echo -n "YOUR_TOKEN" | base64
-  tokenBase64: ""
+  outputTopicId: "0"   # set to the real topic ID
 
 resources:
   limits:
