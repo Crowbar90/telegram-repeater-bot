@@ -17,7 +17,7 @@ fullnameOverride: ""
 bot:
   inputChatId: "0"   # set to the real chat ID
   outputChatId: "0"  # set to the real chat ID
-  outputTopicId: "0"   # set to the real topic ID
+  outputTopicId: null   # set to the real topic ID
 
 resources:
   limits:
