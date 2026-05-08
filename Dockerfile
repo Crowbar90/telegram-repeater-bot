@@ -1,5 +1,5 @@
 # ── Build stage ──────────────────────────────────────────────────────────────
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 WORKDIR /src
 
 COPY TelegramRepeaterBot.csproj .
@@ -9,12 +9,8 @@ COPY src/ ./src/
 RUN dotnet publish -c Release -o /app/publish --no-restore
 
 # ── Runtime stage ─────────────────────────────────────────────────────────────
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime:10.0-noble-chiseled AS runtime
 WORKDIR /app
-
-# Run as non-root
-RUN addgroup --system botgroup && adduser --system --ingroup botgroup botuser
-USER botuser
 
 COPY --from=build /app/publish .
 
