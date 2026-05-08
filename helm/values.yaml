@@ -1,0 +1,44 @@
+# Default values for telegram-repeater-bot.
+# Override with -f my-values.yaml or --set key=value.
+
+replicaCount: 1
+
+image:
+  repository: your-registry/telegram-repeater-bot
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Bot non-secret configuration
+bot:
+  inputChatId: "0"   # set to the real chat ID
+  outputChatId: "0"  # set to the real chat ID
+
+# Secret value (set via --set or an external secrets manager)
+# DO NOT commit real tokens here
+secret:
+  # base64-encoded Telegram bot token
+  # generate with: echo -n "YOUR_TOKEN" | base64
+  tokenBase64: ""
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+podAnnotations: {}
+
+serviceAccount:
+  create: false
+  name: ""

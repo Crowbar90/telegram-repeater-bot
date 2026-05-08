@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "telegram-repeater-bot.fullname" . }}
+  labels:
+    {{- include "telegram-repeater-bot.labels" . | nindent 4 }}
+data:
+  BOT__INPUTCHATID: {{ .Values.bot.inputChatId | quote }}
+  BOT__OUTPUTCHATID: {{ .Values.bot.outputChatId | quote }}

@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "telegram-repeater-bot.fullname" . }}
+  labels:
+    {{- include "telegram-repeater-bot.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "telegram-repeater-bot.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "telegram-repeater-bot.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: bot
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            # Sensitive: injected from the Secret
+            - name: BOT__TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "telegram-repeater-bot.fullname" . }}
+                  key: BOT__TOKEN
+            # Non-sensitive: injected from the ConfigMap
+            - name: BOT__INPUTCHATID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "telegram-repeater-bot.fullname" . }}
+                  key: BOT__INPUTCHATID
+            - name: BOT__OUTPUTCHATID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "telegram-repeater-bot.fullname" . }}
+                  key: BOT__OUTPUTCHATID
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          # The bot has no HTTP listener, so no liveness/readiness probes needed.
+          # Add a startup probe if you wish to gate on successful bot initialization.
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

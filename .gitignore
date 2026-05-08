@@ -1,0 +1,26 @@
+# .NET build artefacts
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Published output
+/app/publish/
+
+# NuGet
+*.nupkg
+nuget.config
+
+# Rider / VS Code
+.idea/
+.vscode/
+*.DotSettings.user
+
+# Helm rendered manifests (never commit)
+helm/charts/
+helm/Chart.lock
+
+# Secrets — never commit real values
+**/secrets.yaml
+**/secret-values.yaml
